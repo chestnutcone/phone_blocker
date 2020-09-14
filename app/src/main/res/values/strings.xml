@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Phone Blocker</string>
+    <string name="title_activity_advance">AdvanceActivity</string>
 </resources>

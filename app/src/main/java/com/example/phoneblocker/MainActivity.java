@@ -1,16 +1,22 @@
 package com.example.phoneblocker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private PhoneRegex phoneRegex = new PhoneRegex();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +59,10 @@ public class MainActivity extends AppCompatActivity {
 //        {
 //            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALL_LOG}, 5);
 //        }
-        
+
 
         // start list view
-        PhoneRegex phoneRegex = new PhoneRegex();
-        phoneRegex.deleteAllEntries(this);
-        phoneRegex.addRegexEntry(this, "new");
-        phoneRegex.addRegexEntry(this, "asd");
+//        phoneRegex.deleteAllEntries(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -69,6 +73,38 @@ public class MainActivity extends AppCompatActivity {
         String[] myDataset = phoneRegex.getRegexEntries(this);
         mAdapter = new RecyclerViewAdapter(myDataset);
         recyclerView.setAdapter(mAdapter);
+
+        // get swipe gestures
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // on swipe
+                Integer position = viewHolder.getAdapterPosition();
+                phoneRegex.deleteEntry(MainActivity.this, position);
+                String[] mDataset = phoneRegex.getRegexEntries(MainActivity.this);
+                // create new adapter
+                mAdapter = new RecyclerViewAdapter(mDataset);
+                recyclerView.setAdapter(mAdapter);
+            }
+        };
+
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+
+        // get add button
+        ImageButton addBtn = findViewById(R.id.addBtn);
+        addBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                // jump to form
+                startActivity(new Intent(MainActivity.this, AddActivity.class));
+            }
+        });
     }
 
 

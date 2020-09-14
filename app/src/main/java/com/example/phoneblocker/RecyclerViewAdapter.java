@@ -1,5 +1,6 @@
 package com.example.phoneblocker;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,4 +56,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(String[] myDataset) {
         mDataset = myDataset;
     }
+
+
 }
