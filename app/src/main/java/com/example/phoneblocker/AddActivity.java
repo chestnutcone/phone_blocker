@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddActivity extends AppCompatActivity {
-
+    private static final String TAG = "AddActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,8 @@ public class AddActivity extends AppCompatActivity {
                 // get number value
                 EditText phoneNumberEditText = (EditText) findViewById(R.id.blockNumber);
                 String phoneNumber = phoneNumberEditText.getText().toString();
-                if (phoneNumber == "") {
+
+                if (phoneNumber.equals("")) {
                     Toast toast = Toast.makeText(
                             getApplicationContext(), "Empty number. Not saving", Toast.LENGTH_LONG);
                     toast.show();
