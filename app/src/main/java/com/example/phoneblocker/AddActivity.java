@@ -4,15 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddActivity extends AppCompatActivity {
@@ -21,8 +17,6 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-
-        setInfoField();
 
         Spinner spinner = (Spinner) findViewById(R.id.add_type_spinner);
         String[] types = new String[]{"Starts with", "Contains", "Ends with"};
@@ -75,14 +69,4 @@ public class AddActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void setInfoField(){
-        String info = "Please enter only numbers. Non-digits will be stripped out. \n"+
-                "If using 'Starts with', please include the country code as well.\n"+
-                "Phone numbers will appear as +12223334445555 where 1 is country code, "+
-                "222 is area code and so on. The plus sign is handled automatically.";
-        TextView v = (TextView) findViewById(R.id.normal_input_info);
-        v.setText(info);
-    }
-
 }

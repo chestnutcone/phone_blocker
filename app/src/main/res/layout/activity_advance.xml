@@ -63,6 +63,7 @@
         android:layout_width="362dp"
         android:layout_height="134dp"
         android:layout_marginTop="60dp"
+        android:text="@string/advance_activity_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toStartOf="parent"

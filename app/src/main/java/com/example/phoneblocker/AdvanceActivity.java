@@ -2,14 +2,11 @@ package com.example.phoneblocker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.regex.Pattern;
@@ -21,8 +18,6 @@ public class AdvanceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advance);
-
-        setInfoField();
 
         ImageButton saveButton = (ImageButton) findViewById(R.id.save_regex_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -52,14 +47,5 @@ public class AdvanceActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void setInfoField(){
-        String info = "This is intended for people who know regex. \n"+
-                "Type in the regex on numbers you want to block. Phone numbers comes in the form of"+
-                "+<country_code><rest_of_numbers> with no symbols in between the digits.\n"+
-                "This will save the raw regex and block the call based on the pattern. ";
-        TextView v = (TextView) findViewById(R.id.advance_input_info);
-        v.setText(info);
     }
 }

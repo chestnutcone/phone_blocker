@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Phone Blocker</string>
     <string name="title_activity_advance">AdvanceActivity</string>
+    <string name="add_activity_title">Reject phone numbers that</string>
+    <string name="add_activity_info">
+        \tPlease enter only numbers. Non-digits will be stripped out.
+        \n\tIf using \'Starts with\', please include the country code as well.
+        \n\tPhone numbers will appear as +12223334445555 where 1 is country code,
+        222 is area code and so on. The plus sign is handled automatically.
+    </string>
+    <string name="advance_activity_info">
+        \tThis is intended for people who know regex.
+        \n\tType in the regex on numbers you want to block. Phone numbers comes in the form of &lt;country_code>&lt;rest_of_numbers> with no symbols in between the digits.
+        \n\tThis will save the raw regex and block the call based on the pattern.
+    </string>
 </resources>
