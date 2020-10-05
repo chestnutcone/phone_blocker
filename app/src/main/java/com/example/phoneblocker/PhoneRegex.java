@@ -4,11 +4,17 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -16,16 +22,60 @@ import static android.content.ContentValues.TAG;
 
 
 public class PhoneRegex {
-    public void addRegexEntry(Context ctx, String entry, Boolean append) {
-        String yourFilePath = ctx.getFilesDir().toString();
-        File myFile = new File(yourFilePath, "phone.txt");
-        if (checkDuplicateEntry(ctx, entry)) {
-            try {
-                FileWriter writer = new FileWriter(myFile, append);
+    private static final String fileName = "phone.json";
+    public static final String typeReject = "reject";
+    public static final String typeExcept = "except";
 
-                Log.d(TAG, "addRegexEntry: "+entry);
-                writer.append(entry);
-                writer.append(",");
+
+    public void addRegexEntry(Context ctx, String entry, Boolean append, String type) {
+        String yourFilePath = ctx.getFilesDir().toString();
+        File myFile = new File(yourFilePath, fileName);
+
+        // get entry
+        JSONObject obj = getJSONFile(ctx);
+        String[] saved = getRegexEntries(ctx, type, obj);
+        boolean exist = false;
+        // check if entry exist
+        if (append) {
+            for (int i=0; i<saved.length; i++) {
+                if (entry.equals(saved[i])) {
+                    exist = true;
+                    break;
+                }
+            }
+        }
+
+        if (!exist) {
+            try {
+                String savedString;
+                try {
+                    savedString = obj.get(type).toString();
+                } catch (NullPointerException npe) {
+                    savedString = "";
+                }
+
+                String newString;
+                if (append) {
+                    newString = savedString+entry+",";
+                } else {
+                    newString = entry;
+                }
+                obj.put(type, newString);
+
+
+                StringWriter out = new StringWriter();
+                obj.writeJSONString(out);
+                String jsonText = out.toString();
+
+
+                // below is a simple csv type txt file
+                FileWriter writer = new FileWriter(myFile);
+                // write json string
+                writer.append(jsonText);
+//
+//                Log.d(TAG, "addRegexEntry: "+entry);
+//                writer.append(entry);
+//                writer.append(",");
 
                 writer.flush();
                 writer.close();
@@ -41,26 +91,17 @@ public class PhoneRegex {
         }
     }
 
-    public void addRegexEntry(Context ctx, String entry) {
-        addRegexEntry(ctx, entry, true);
+    public void addRegexEntry(Context ctx, String entry, String type) {
+        addRegexEntry(ctx, entry, true, type);
     }
 
-    private boolean checkDuplicateEntry(Context ctx, String newEntry){
-        // check for existing entries
-        String[] existing = getRegexEntries(ctx);
-        for (int i=0; i<existing.length; i++) {
-            if (newEntry.equals(existing[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
     public void deleteAllEntries(Context ctx) {
-        addRegexEntry(ctx, "", false);
+        addRegexEntry(ctx, "", false, typeExcept);
+        addRegexEntry(ctx, "", false, typeReject);
     }
 
-    public void deleteEntry(Context ctx, Integer position) {
-        String[] entries = getRegexEntries(ctx);
+    public void deleteEntry(Context ctx, Integer position, String type) {
+        String[] entries = getRegexEntries(ctx, type);
 
         ArrayList<String> newArray = new ArrayList<>();
         for (int i=0; i<entries.length; i++) {
@@ -69,12 +110,12 @@ public class PhoneRegex {
             }
         }
         String newValues = String.join(",", newArray);
-        addRegexEntry(ctx, newValues, false);
+        addRegexEntry(ctx, newValues, false, type);
     }
 
-    public String[] getRegexEntries(Context ctx){
+    public JSONObject getJSONFile(Context ctx) {
         String yourFilePath = ctx.getFilesDir().toString();
-        File myFile = new File(yourFilePath, "phone.txt");
+        File myFile = new File(yourFilePath, fileName);
 
         StringBuilder phoneText = new StringBuilder();
         try {
@@ -84,11 +125,47 @@ public class PhoneRegex {
                 phoneText.append(line);
             }
             br.close();
-            Log.d(TAG, "getRegexEntries: "+phoneText);
-            return phoneText.toString().split(",");
+
+            // process json
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(phoneText.toString());
+            return obj;
         } catch (IOException e) {
             Toast toast = Toast.makeText(
                     ctx, "Fail to get phone pattern", Toast.LENGTH_LONG);
+            toast.show();
+        } catch (ParseException pe) {
+            Toast toast = Toast.makeText(
+                    ctx, "Parse Exception", Toast.LENGTH_LONG);
+            toast.show();
+        }
+        return null;
+    }
+
+    public String[] getRegexEntries(Context ctx, String type){
+        // type refers to 'reject' or 'except' phone list
+        JSONObject obj = getJSONFile(ctx);
+        try {
+            if (obj != null) {
+                return obj.get(type).toString().split(",");
+            }
+        } catch (NullPointerException npe) {
+            Toast toast = Toast.makeText(
+                    ctx, "Null Pointer Exception", Toast.LENGTH_LONG);
+            toast.show();
+        }
+        return new String[0];
+    }
+
+    public String[] getRegexEntries(Context ctx, String type, JSONObject obj){
+        // type refers to 'reject' or 'except' phone list
+        try {
+            if (obj != null) {
+                return obj.get(type).toString().split(",");
+            }
+        } catch (NullPointerException npe) {
+            Toast toast = Toast.makeText(
+                    ctx, "Null Pointer Exception", Toast.LENGTH_LONG);
             toast.show();
         }
         return new String[0];

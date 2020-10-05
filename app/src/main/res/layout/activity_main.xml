@@ -9,10 +9,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_width="418dp"
+        android:layout_height="477dp"
+        android:layout_marginBottom="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-4dp" />
 
     <ImageButton
         android:id="@+id/addBtn"
@@ -41,4 +42,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/mainActivity_radio_reject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/radio_show_reject"
+            android:onClick="showRejectionRegex"/>
+
+        <RadioButton
+            android:id="@+id/mainActivity_radio_except"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_show_except"
+            android:onClick="showExceptionRegex"/>
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

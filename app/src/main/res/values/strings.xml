@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Phone Blocker</string>
-    <string name="title_activity_advance">AdvanceActivity</string>
-    <string name="add_activity_title">Reject phone numbers that</string>
+    <string name="title_activity_advance">Advanced</string>
+    <string name="title_activity_add">Add Entry</string>
     <string name="add_activity_info">
         \tPlease enter only numbers. Non-digits will be stripped out.
         \n\tIf using \'Starts with\', please include the country code as well.
@@ -13,4 +13,10 @@
         \n\tType in the regex on numbers you want to block. Phone numbers comes in the form of &lt;country_code>&lt;rest_of_numbers> with no symbols in between the digits.
         \n\tThis will save the raw regex and block the call based on the pattern.
     </string>
+
+    <string name="radio_reject">Reject phone number</string>
+    <string name="radio_except">Add Exception phone number</string>
+
+    <string name="radio_show_reject">Show Reject Phone Regex</string>
+    <string name="radio_show_except">Show Exception Phone Regex</string>
 </resources>

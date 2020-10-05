@@ -9,11 +9,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AddActivity extends AppCompatActivity {
-    private static final String TAG = "AddActivity";
+    private static final String TAG = AddActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +61,16 @@ public class AddActivity extends AppCompatActivity {
         String selectedType = spinner.getSelectedItem().toString();
         PhoneRegex phoneRegex = new PhoneRegex();
         String regex_pattern = phoneRegex.constructRegex(selectedType, phoneNumber);
-        phoneRegex.addRegexEntry(AddActivity.this, regex_pattern);
+
+        RadioButton rejectRadio = (RadioButton) findViewById(R.id.addActivity_radio_reject);
+        String type;
+        if (rejectRadio.isChecked()) {
+            type = PhoneRegex.typeReject;
+        } else {
+            type = PhoneRegex.typeExcept;
+        }
+
+        phoneRegex.addRegexEntry(AddActivity.this, regex_pattern, type);
 
         Toast toast = Toast.makeText(
                 getApplicationContext(), "Saved", Toast.LENGTH_SHORT);

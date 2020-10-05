@@ -10,10 +10,10 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:padding="15dp"
-        android:text="Advanced"
+        android:text="@string/title_activity_advance"
         android:textColor="#000"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,10 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="184dp"
         android:text="Enter regex:"
         app:layout_constraintEnd_toStartOf="@+id/regex_input"
-        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintHorizontal_bias="0.392"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -35,11 +35,11 @@
         android:id="@+id/regex_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginTop="252dp"
+        android:layout_marginEnd="48dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="regex"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,12 +62,35 @@
         android:id="@+id/advance_input_info"
         android:layout_width="362dp"
         android:layout_height="134dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:text="@string/advance_activity_info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.326"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <RadioGroup
+        android:layout_width="284dp"
+        android:layout_height="63dp"
+        app:layout_constraintBottom_toTopOf="@+id/regex_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.129"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.407">
+
+        <RadioButton
+            android:id="@+id/advanceActivity_radio_reject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_reject" />
+
+        <RadioButton
+            android:id="@+id/advanceActivity_radio_except"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_except" />
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

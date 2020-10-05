@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        initializeLayout();
+        String[] myDataset = phoneRegex.getRegexEntries(this, PhoneRegex.typeReject);
+        initializeLayout(myDataset);
         Log.d(TAG, "onStart");
     }
 
@@ -85,7 +87,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onStop: ");
     }
 
-    private void initializeLayout() {
+    public void showRejectionRegex(View v) {
+
+    }
+
+    public void showExceptionRegex(View v) {
+
+    }
+
+    private void initializeLayout(String[] myDataset) {
         // start list view
 //        phoneRegex.deleteAllEntries(this);
 
@@ -95,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        String[] myDataset = phoneRegex.getRegexEntries(this);
         mAdapter = new RecyclerViewAdapter(myDataset);
         recyclerView.setAdapter(mAdapter);
 
@@ -108,10 +117,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                RadioButton rejectRadio = (RadioButton) findViewById(R.id.mainActivity_radio_reject);
+                String type;
+                if (rejectRadio.isChecked()) {
+                    type = PhoneRegex.typeReject;
+                } else {
+                    type = PhoneRegex.typeExcept;
+                }
+
                 // on swipe
                 Integer position = viewHolder.getAdapterPosition();
-                phoneRegex.deleteEntry(MainActivity.this, position);
-                String[] mDataset = phoneRegex.getRegexEntries(MainActivity.this);
+                phoneRegex.deleteEntry(MainActivity.this, position, type);
+                String[] mDataset = phoneRegex.getRegexEntries(MainActivity.this, type);
                 // create new adapter
                 mAdapter = new RecyclerViewAdapter(mDataset);
                 recyclerView.setAdapter(mAdapter);

@@ -6,39 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".AddActivity">
 
+
+    <TextView
+        android:id="@+id/normal_input_info"
+        android:layout_width="364dp"
+        android:layout_height="116dp"
+        android:text="@string/add_activity_info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blockNumber"
+        app:layout_constraintVertical_bias="0.198" />
+
     <Spinner
         android:id="@+id/add_type_spinner"
         android:layout_width="143dp"
         android:layout_height="35dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="76dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:padding="15dp"
-        android:text="@string/add_activity_title"
-        android:textColor="#000"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
     <EditText
         android:id="@+id/blockNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="76dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintHorizontal_bias="0.589"
         app:layout_constraintStart_toEndOf="@+id/add_type_spinner"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
     <ImageButton
         android:id="@+id/save_entry_button"
@@ -54,16 +54,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.948"
         app:layout_constraintStart_toStartOf="parent" />
-    
-    <TextView
-        android:id="@+id/normal_input_info"
-        android:layout_width="364dp"
-        android:layout_height="116dp"
-        android:text="@string/add_activity_info"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="282dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintHorizontal_bias="0.317"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/blockNumber"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintTop_toBottomOf="@+id/addActivityTitle">
+
+        <RadioButton
+            android:id="@+id/addActivity_radio_reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/radio_reject" />
+
+        <RadioButton
+            android:id="@+id/addActivity_radio_except"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_except" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/addActivityTitle"
+        android:layout_width="117dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/title_activity_add"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

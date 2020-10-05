@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.regex.Pattern;
@@ -30,7 +31,16 @@ public class AdvanceActivity extends AppCompatActivity {
                     try {
                         Pattern.compile(regexString);
                         PhoneRegex phoneRegex = new PhoneRegex();
-                        phoneRegex.addRegexEntry(AdvanceActivity.this, regexString);
+
+                        String type;
+                        RadioButton rejectRadio = (RadioButton) findViewById(R.id.advanceActivity_radio_reject);
+                        if (rejectRadio.isChecked()) {
+                            type = PhoneRegex.typeReject;
+                        } else {
+                            type = PhoneRegex.typeExcept;
+                        }
+
+                        phoneRegex.addRegexEntry(AdvanceActivity.this, regexString, type);
                         // back to main activity
                         //startActivity(new Intent(AdvanceActivity.this, MainActivity.class));
                         finish();
