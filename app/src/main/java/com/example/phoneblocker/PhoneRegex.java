@@ -19,18 +19,24 @@ public class PhoneRegex {
     public void addRegexEntry(Context ctx, String entry, Boolean append) {
         String yourFilePath = ctx.getFilesDir().toString();
         File myFile = new File(yourFilePath, "phone.txt");
-        try {
-            FileWriter writer = new FileWriter(myFile, append);
+        if (checkDuplicateEntry(ctx, entry)) {
+            try {
+                FileWriter writer = new FileWriter(myFile, append);
 
-            Log.d(TAG, "addRegexEntry: "+entry);
-            writer.append(entry);
-            writer.append(",");
+                Log.d(TAG, "addRegexEntry: "+entry);
+                writer.append(entry);
+                writer.append(",");
 
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                Toast toast = Toast.makeText(
+                        ctx, "Fail to save phone pattern", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        } else {
             Toast toast = Toast.makeText(
-                    ctx, "Fail to save phone pattern", Toast.LENGTH_LONG);
+                    ctx, "Phone pattern already exists", Toast.LENGTH_LONG);
             toast.show();
         }
     }
@@ -39,6 +45,16 @@ public class PhoneRegex {
         addRegexEntry(ctx, entry, true);
     }
 
+    private boolean checkDuplicateEntry(Context ctx, String newEntry){
+        // check for existing entries
+        String[] existing = getRegexEntries(ctx);
+        for (int i=0; i<existing.length; i++) {
+            if (newEntry.equals(existing[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
     public void deleteAllEntries(Context ctx) {
         addRegexEntry(ctx, "", false);
     }

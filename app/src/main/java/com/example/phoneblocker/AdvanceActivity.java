@@ -32,7 +32,8 @@ public class AdvanceActivity extends AppCompatActivity {
                         PhoneRegex phoneRegex = new PhoneRegex();
                         phoneRegex.addRegexEntry(AdvanceActivity.this, regexString);
                         // back to main activity
-                        startActivity(new Intent(AdvanceActivity.this, MainActivity.class));
+                        //startActivity(new Intent(AdvanceActivity.this, MainActivity.class));
+                        finish();
                     } catch (PatternSyntaxException exception){
                         Toast toast = Toast.makeText(
                                 getApplicationContext(), "Invalid regex", Toast.LENGTH_LONG);
