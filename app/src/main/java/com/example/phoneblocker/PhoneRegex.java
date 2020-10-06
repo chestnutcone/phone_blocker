@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import static android.content.ContentValues.TAG;
 
@@ -79,6 +80,7 @@ public class PhoneRegex {
 
                 writer.flush();
                 writer.close();
+                Log.d(TAG, "addRegexEntry: SAVED FILE");
             } catch (IOException e) {
                 Toast toast = Toast.makeText(
                         ctx, "Fail to save phone pattern", Toast.LENGTH_LONG);
@@ -139,14 +141,14 @@ public class PhoneRegex {
                     ctx, "Parse Exception", Toast.LENGTH_LONG);
             toast.show();
         }
-        return null;
+        return new JSONObject();
     }
 
     public String[] getRegexEntries(Context ctx, String type){
         // type refers to 'reject' or 'except' phone list
         JSONObject obj = getJSONFile(ctx);
         try {
-            if (obj != null) {
+            if (obj.containsKey(type)) {
                 return obj.get(type).toString().split(",");
             }
         } catch (NullPointerException npe) {
@@ -160,7 +162,7 @@ public class PhoneRegex {
     public String[] getRegexEntries(Context ctx, String type, JSONObject obj){
         // type refers to 'reject' or 'except' phone list
         try {
-            if (obj != null) {
+            if (obj.containsKey(type)) {
                 return obj.get(type).toString().split(",");
             }
         } catch (NullPointerException npe) {
@@ -189,4 +191,17 @@ public class PhoneRegex {
         Log.d(TAG, "constructRegex: with pattern"+pattern);
         return pattern;
     }
+
+    public Boolean checkExist(Context ctx, String number, String type) {
+        // check if number exists within type of phone number
+        String[] blockedNumber = getRegexEntries(ctx, type);
+        for(String blockedNum : blockedNumber)
+        {
+            if (Pattern.matches(blockedNum, number)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

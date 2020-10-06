@@ -83,6 +83,7 @@
             android:id="@+id/advanceActivity_radio_reject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/radio_reject" />
 
         <RadioButton

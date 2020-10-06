@@ -1,6 +1,7 @@
 package com.example.phoneblocker;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.telecom.TelecomManager;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -15,12 +16,8 @@ public class CallReceiver extends PhonecallReceiver {
             return;
         }
         PhoneRegex phoneRegex = new PhoneRegex();
-        String[] blockedNumber = phoneRegex.getRegexEntries(ctx);
-        for(String blockedNum : blockedNumber)
-        {
-            if (Pattern.matches(blockedNum, number)) {
-                declinePhone(ctx);
-            }
+        if (phoneRegex.checkExist(ctx, number, PhoneRegex.typeReject) && !phoneRegex.checkExist(ctx, number, PhoneRegex.typeExcept)) {
+            declinePhone(ctx);
         }
     }
 

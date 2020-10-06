@@ -88,11 +88,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showRejectionRegex(View v) {
-
+        String[] myDataset = phoneRegex.getRegexEntries(this, PhoneRegex.typeReject);
+        initializeLayout(myDataset);
     }
 
     public void showExceptionRegex(View v) {
-
+        String[] myDataset = phoneRegex.getRegexEntries(this, PhoneRegex.typeExcept);
+        initializeLayout(myDataset);
     }
 
     private void initializeLayout(String[] myDataset) {
