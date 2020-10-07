@@ -4,12 +4,19 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
-    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+
+    <!-- Needed only if your calling app reads numbers from the `PHONE_STATE`
+         intent action. The maxSdkVersion attribute is needed only if your
+         calling app uses the getLine1Number() or getMsisdn() methods. -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"
+        android:maxSdkVersion="29"/>
+
+    <!-- Needed only if your calling app uses the getLine1Number() or
+         getMsisdn() methods. -->
+    <uses-permission android:name="android.permissions.READ_PHONE_NUMBERS"/>
+
 
     <application
         android:allowBackup="true"
@@ -28,14 +35,15 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".CallReceiver">
+        <service android:name=".CallScreen"
+            android:permission="android.permission.BIND_SCREENING_SERVICE">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.telecom.CallScreeningService"/>
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-            </intent-filter>
-        </receiver>
+        </service>
+
     </application>
+
+
 
 </manifest>

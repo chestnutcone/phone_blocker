@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,7 +14,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -177,13 +175,13 @@ public class PhoneRegex {
         String pattern;
         switch (type) {
             case "Starts with":
-                pattern = "\\+"+number+"\\d*";
+                pattern = "\\+?"+number+"\\d*";
                 break;
             case "Contains":
-                pattern = "\\+\\d*"+number+"\\d*";
+                pattern = "\\+?\\d*"+number+"\\d*";
                 break;
             case "Ends with":
-                pattern = "\\+\\d*"+number;
+                pattern = "\\+?\\d*"+number;
                 break;
             default:
                 pattern = "";
@@ -200,6 +198,14 @@ public class PhoneRegex {
             if (Pattern.matches(blockedNum, number)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean rejectCall(Context ctx, String phoneNumber) {
+        if (checkExist(ctx, phoneNumber, PhoneRegex.typeReject) && !checkExist(ctx, phoneNumber, PhoneRegex.typeExcept)) {
+            Log.d(TAG, "rejectCall: TRUE");
+            return true;
         }
         return false;
     }
