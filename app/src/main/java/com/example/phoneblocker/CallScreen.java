@@ -27,7 +27,7 @@ public class CallScreen extends CallScreeningService {
                 callResponse = responseBuilder.setDisallowCall(true).setRejectCall(true).setSilenceCall(true).setSkipCallLog(false).setSkipNotification(true).build();
             } else {
                 Log.d(TAG, "onScreenCall: NOT REJECTING");
-                callResponse = responseBuilder.setDisallowCall(true).setRejectCall(false).setSilenceCall(false).setSkipCallLog(false).setSkipNotification(false).build();
+                callResponse = responseBuilder.setDisallowCall(false).setRejectCall(false).setSilenceCall(false).setSkipCallLog(false).setSkipNotification(false).build();
             }
 
             respondToCall(callDetails, callResponse);

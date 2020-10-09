@@ -57,7 +57,7 @@ public class PhoneRegex {
                 if (append) {
                     newString = savedString+entry+",";
                 } else {
-                    newString = entry;
+                    newString = entry+",";
                 }
                 obj.put(type, newString);
 
