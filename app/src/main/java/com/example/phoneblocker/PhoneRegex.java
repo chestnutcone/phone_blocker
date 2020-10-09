@@ -80,9 +80,7 @@ public class PhoneRegex {
                 writer.close();
                 Log.d(TAG, "addRegexEntry: SAVED FILE");
             } catch (IOException e) {
-                Toast toast = Toast.makeText(
-                        ctx, "Fail to save phone pattern", Toast.LENGTH_LONG);
-                toast.show();
+                Log.d(TAG, "addRegexEntry: Fail to get phone pattern");
             }
         } else {
             Toast toast = Toast.makeText(
