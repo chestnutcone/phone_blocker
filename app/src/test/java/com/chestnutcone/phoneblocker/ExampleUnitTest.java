@@ -1,4 +1,4 @@
-package com.example.phoneblocker;
+package com.chestnutcone.phoneblocker;
 
 import org.junit.Test;
 

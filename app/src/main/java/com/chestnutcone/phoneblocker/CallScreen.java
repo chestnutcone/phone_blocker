@@ -1,4 +1,4 @@
-package com.example.phoneblocker;
+package com.chestnutcone.phoneblocker;
 
 import android.telecom.Call;
 import android.telecom.CallScreeningService;

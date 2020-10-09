@@ -1,4 +1,4 @@
-package com.example.phoneblocker;
+package com.chestnutcone.phoneblocker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
