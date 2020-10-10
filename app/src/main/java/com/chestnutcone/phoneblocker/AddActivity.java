@@ -1,9 +1,8 @@
-package com.example.phoneblocker;
+package com.chestnutcone.phoneblocker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -76,7 +75,6 @@ public class AddActivity extends AppCompatActivity {
         toast.show();
 
         // redirect back to first activity
-        Log.d(TAG, "onClick: ");
         finish();
     }
 }
