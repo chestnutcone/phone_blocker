@@ -1,7 +1,6 @@
 package com.chestnutcone.phoneblocker;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
@@ -16,8 +15,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-
-import static android.content.ContentValues.TAG;
 
 
 public class PhoneRegex {
@@ -61,26 +58,19 @@ public class PhoneRegex {
                 }
                 obj.put(type, newString);
 
-
                 StringWriter out = new StringWriter();
                 obj.writeJSONString(out);
                 String jsonText = out.toString();
-
 
                 // below is a simple csv type txt file
                 FileWriter writer = new FileWriter(myFile);
                 // write json string
                 writer.append(jsonText);
-//
-//                Log.d(TAG, "addRegexEntry: "+entry);
-//                writer.append(entry);
-//                writer.append(",");
 
                 writer.flush();
                 writer.close();
-                Log.d(TAG, "addRegexEntry: SAVED FILE");
             } catch (IOException e) {
-                Log.d(TAG, "addRegexEntry: Fail to get phone pattern");
+
             }
         } else {
             Toast toast = Toast.makeText(
@@ -89,16 +79,11 @@ public class PhoneRegex {
         }
     }
 
-    public void addRegexEntry(Context ctx, String entry, String type) {
+    void addRegexEntry(Context ctx, String entry, String type) {
         addRegexEntry(ctx, entry, true, type);
     }
 
-    public void deleteAllEntries(Context ctx) {
-        addRegexEntry(ctx, "", false, typeExcept);
-        addRegexEntry(ctx, "", false, typeReject);
-    }
-
-    public void deleteEntry(Context ctx, Integer position, String type) {
+    void deleteEntry(Context ctx, Integer position, String type) {
         String[] entries = getRegexEntries(ctx, type);
 
         ArrayList<String> newArray = new ArrayList<>();
@@ -111,7 +96,7 @@ public class PhoneRegex {
         addRegexEntry(ctx, newValues, false, type);
     }
 
-    public JSONObject getJSONFile(Context ctx) {
+    private JSONObject getJSONFile(Context ctx) {
         String yourFilePath = ctx.getFilesDir().toString();
         File myFile = new File(yourFilePath, fileName);
 
@@ -129,9 +114,7 @@ public class PhoneRegex {
             JSONObject obj = (JSONObject) parser.parse(phoneText.toString());
             return obj;
         } catch (IOException e) {
-            Toast toast = Toast.makeText(
-                    ctx, "Fail to get phone pattern", Toast.LENGTH_LONG);
-            toast.show();
+
         } catch (ParseException pe) {
             Toast toast = Toast.makeText(
                     ctx, "Parse Exception", Toast.LENGTH_LONG);
@@ -140,7 +123,7 @@ public class PhoneRegex {
         return new JSONObject();
     }
 
-    public String[] getRegexEntries(Context ctx, String type){
+    String[] getRegexEntries(Context ctx, String type){
         // type refers to 'reject' or 'except' phone list
         JSONObject obj = getJSONFile(ctx);
         try {
@@ -155,7 +138,7 @@ public class PhoneRegex {
         return new String[0];
     }
 
-    public String[] getRegexEntries(Context ctx, String type, JSONObject obj){
+    String[] getRegexEntries(Context ctx, String type, JSONObject obj){
         // type refers to 'reject' or 'except' phone list
         try {
             if (obj.containsKey(type)) {
@@ -169,7 +152,7 @@ public class PhoneRegex {
         return new String[0];
     }
 
-    public String constructRegex(String type, String number) {
+    String constructRegex(String type, String number) {
         String pattern;
         switch (type) {
             case "Starts with":
@@ -184,11 +167,10 @@ public class PhoneRegex {
             default:
                 pattern = "";
         }
-        Log.d(TAG, "constructRegex: with pattern"+pattern);
         return pattern;
     }
 
-    public Boolean checkExist(Context ctx, String number, String type) {
+    Boolean checkExist(Context ctx, String number, String type) {
         // check if number exists within type of phone number
         String[] blockedNumber = getRegexEntries(ctx, type);
         for(String blockedNum : blockedNumber)
@@ -200,9 +182,8 @@ public class PhoneRegex {
         return false;
     }
 
-    public boolean rejectCall(Context ctx, String phoneNumber) {
+    boolean rejectCall(Context ctx, String phoneNumber) {
         if (checkExist(ctx, phoneNumber, PhoneRegex.typeReject) && !checkExist(ctx, phoneNumber, PhoneRegex.typeExcept)) {
-            Log.d(TAG, "rejectCall: TRUE");
             return true;
         }
         return false;

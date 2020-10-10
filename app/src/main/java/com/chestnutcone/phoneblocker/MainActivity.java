@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.role.RoleManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -27,10 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.d(TAG, "onCreate: ");
-//        checkPermission();
-        requestRole();
 
         // get add button
         ImageButton addBtn = findViewById(R.id.addBtn);
@@ -67,10 +62,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_ID) {
             if (resultCode == android.app.Activity.RESULT_OK) {
                 // app is now the call screening app
-                Log.d(TAG, "onActivityResult: CALL SCREEN APP");
 
             } else {
-                Log.d(TAG, "onActivityResult: NOT CALL SCREEN APP");
+
             }
         }
     }
@@ -78,33 +72,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
+        requestRole();
         String[] myDataset = phoneRegex.getRegexEntries(this, PhoneRegex.typeReject);
         initializeLayout(myDataset);
-        Log.d(TAG, "onStart");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume: ");
-    }
-
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart: ");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop: ");
     }
 
     public void showRejectionRegex(View v) {
