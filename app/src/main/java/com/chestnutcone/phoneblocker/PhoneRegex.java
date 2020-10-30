@@ -1,6 +1,7 @@
 package com.chestnutcone.phoneblocker;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
@@ -19,13 +20,14 @@ import java.util.regex.Pattern;
 
 public class PhoneRegex {
     private static final String fileName = "phone.json";
-    public static final String typeReject = "reject";
-    public static final String typeExcept = "except";
+    static final String typeReject = "reject";
+    static final String typeExcept = "except";
+    static final String TAG = PhoneRegex.class.getSimpleName();
 
 
-    public void addRegexEntry(Context ctx, String entry, Boolean append, String type) {
-        String yourFilePath = ctx.getFilesDir().toString();
-        File myFile = new File(yourFilePath, fileName);
+    void addRegexEntry(Context ctx, String entry, Boolean append, String type) {
+        String filePath = ctx.getFilesDir().toString();
+        File myFile = new File(filePath, fileName);
 
         // get entry
         JSONObject obj = getJSONFile(ctx);
@@ -42,41 +44,65 @@ public class PhoneRegex {
         }
 
         if (!exist) {
+            String savedString;
             try {
-                String savedString;
-                try {
-                    savedString = obj.get(type).toString();
-                } catch (NullPointerException npe) {
-                    savedString = "";
-                }
-
-                String newString;
-                if (append) {
-                    newString = savedString+entry+",";
-                } else {
-                    newString = entry+",";
-                }
-                obj.put(type, newString);
-
-                StringWriter out = new StringWriter();
-                obj.writeJSONString(out);
-                String jsonText = out.toString();
-
-                // below is a simple csv type txt file
-                FileWriter writer = new FileWriter(myFile);
-                // write json string
-                writer.append(jsonText);
-
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-
+                savedString = obj.get(type).toString();
+            } catch (NullPointerException npe) {
+                savedString = "";
             }
+
+            String newString;
+            if (append) {
+                newString = savedString+entry+",";
+            } else {
+                newString = entry+",";
+            }
+            obj.put(type, newString);
+            writeJSON(obj, myFile);
+
         } else {
             Toast toast = Toast.makeText(
                     ctx, "Phone pattern already exists", Toast.LENGTH_LONG);
             toast.show();
         }
+    }
+
+    private void writeJSON(JSONObject obj, File file) {
+        try {
+            StringWriter out = new StringWriter();
+            obj.writeJSONString(out);
+            String jsonText = out.toString();
+
+            // below is a simple csv type txt file
+            FileWriter writer = new FileWriter(file);
+            // write json string
+            writer.append(jsonText);
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+
+        }
+    }
+
+    void setSettings(Context ctx, String key, boolean value) {
+        // to save global settings
+        // first use case is handling unknown caller id
+        String filePath = ctx.getFilesDir().toString();
+        File myFile = new File(filePath, fileName);
+
+        JSONObject obj = getJSONFile(ctx);
+        obj.put(key, value);
+        writeJSON(obj, myFile);
+    }
+
+    boolean getUnknownCallerSettings(Context ctx) {
+        JSONObject obj = getJSONFile(ctx);
+        if (!obj.containsKey(MainActivity.unknownCallerSettings)) {
+            // default of False
+            setSettings(ctx, MainActivity.unknownCallerSettings, false);
+        }
+        return (boolean) obj.get(MainActivity.unknownCallerSettings);
     }
 
     void addRegexEntry(Context ctx, String entry, String type) {

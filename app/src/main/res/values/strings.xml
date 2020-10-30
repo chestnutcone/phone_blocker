@@ -17,4 +17,6 @@
 
     <string name="radio_show_reject">Show Reject Phone Regex</string>
     <string name="radio_show_except">Show Exception Phone Regex</string>
+
+    <string name="unknown_caller_setting">Reject Unknown Caller</string>
 </resources>

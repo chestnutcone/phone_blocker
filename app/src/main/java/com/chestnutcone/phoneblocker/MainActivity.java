@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.Switch;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private PhoneRegex phoneRegex = new PhoneRegex();
     private static final int REQUEST_ID = 1;
+    public static final String unknownCallerSettings = "unknownCallerSettings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         requestRole();
         String[] myDataset = phoneRegex.getRegexEntries(this, PhoneRegex.typeReject);
         initializeLayout(myDataset);
+        initializeUnknownCallerSettings();
     }
 
     public void showRejectionRegex(View v) {
@@ -87,9 +90,19 @@ public class MainActivity extends AppCompatActivity {
         initializeLayout(myDataset);
     }
 
+    public void changeUnknownCallerSettings(View v) {
+        Switch unknownCaller = (Switch) findViewById(R.id.mainActivity_unknown_caller);
+        phoneRegex.setSettings(this, unknownCallerSettings, unknownCaller.isChecked());
+    }
+
+    public void initializeUnknownCallerSettings() {
+        boolean pref = phoneRegex.getUnknownCallerSettings(this);
+        Switch unknownCaller = (Switch) findViewById(R.id.mainActivity_unknown_caller);
+        unknownCaller.setChecked(pref);
+    }
+
     private void initializeLayout(String[] myDataset) {
         // start list view
-//        phoneRegex.deleteAllEntries(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);

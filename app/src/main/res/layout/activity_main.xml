@@ -10,10 +10,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="418dp"
-        android:layout_height="477dp"
+        android:layout_height="413dp"
         android:layout_marginBottom="140dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="-4dp" />
+        tools:layout_editor_absoluteX="-3dp" />
 
     <ImageButton
         android:id="@+id/addBtn"
@@ -35,8 +35,8 @@
         android:layout_height="70dp"
         android:layout_marginBottom="36dp"
         android:background="@drawable/round_shape"
-        android:textColor="#fff"
         android:src="@android:drawable/ic_menu_more"
+        android:textColor="#fff"
         android:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,26 +44,38 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/radioGroup"
+        android:layout_width="265dp"
+        android:layout_height="82dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
             android:id="@+id/mainActivity_radio_reject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/radio_show_reject"
-            android:onClick="showRejectionRegex"/>
+            android:onClick="showRejectionRegex"
+            android:text="@string/radio_show_reject" />
 
         <RadioButton
             android:id="@+id/mainActivity_radio_except"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/radio_show_except"
-            android:onClick="showExceptionRegex"/>
+            android:onClick="showExceptionRegex"
+            android:text="@string/radio_show_except" />
     </RadioGroup>
+
+    <Switch
+        android:id="@+id/mainActivity_unknown_caller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unknown_caller_setting"
+        android:onClick="changeUnknownCallerSettings"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
